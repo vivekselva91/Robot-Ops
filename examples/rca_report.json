@@ -1,0 +1,67 @@
+{
+  "agent": "Automated root cause analysis",
+  "summary": "E-stop from LiDAR watchdog during CPU starvation",
+  "findings": [
+    {
+      "severity": "critical",
+      "title": "Proximate cause",
+      "detail": "The LiDAR watchdog fired after scans exceeded the 50 ms deadline.",
+      "source": "claude",
+      "evidence": {}
+    },
+    {
+      "severity": "critical",
+      "title": "Root cause (kernel/scheduling layer)",
+      "detail": "A localization thread saturated core 3, starving the LiDAR driver callback until message age crossed the watchdog threshold.",
+      "source": "claude",
+      "evidence": {
+        "confidence": 0.78,
+        "peaks": {
+          "cpu_core0_pct": 50.9,
+          "cpu_core3_pct": 99.7,
+          "mem_used_pct": 72.6,
+          "lidar_msg_age_ms": 105.0
+        },
+        "error_count": 6,
+        "first_error_t": 27.5,
+        "seconds_from_first_error_to_trigger": 2.5,
+        "sources_reporting_errors": [
+          "lidar_driver",
+          "safety_monitor"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "title": "Contributing factor",
+      "detail": "No CPU affinity set for the localization thread.",
+      "source": "claude",
+      "evidence": {}
+    },
+    {
+      "severity": "warning",
+      "title": "Contributing factor",
+      "detail": "Watchdog threshold leaves no margin for scheduling jitter.",
+      "source": "claude",
+      "evidence": {}
+    },
+    {
+      "severity": "info",
+      "title": "Evidence gap",
+      "detail": "No per-thread scheduler trace in the bundle.",
+      "source": "claude",
+      "evidence": {}
+    }
+  ],
+  "metrics": {
+    "trigger": "E_STOP:lidar_watchdog",
+    "logs_captured": 15,
+    "errors_captured": 6,
+    "lead_time_s": 2.5,
+    "confidence": 0.78
+  },
+  "recommendations": [
+    "Pin the localization thread to a dedicated core and cap its rate.",
+    "Alert on lidar_msg_age_ms trending above 35 ms before the watchdog fires."
+  ]
+}

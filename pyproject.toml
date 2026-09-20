@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robot-ops-copilot"
+version = "0.1.0"
+description = "Five Claude-powered reliability agents for robotics fleets: sensor-fusion sanity checks, ROS 2 uptime, latency profiling, automated RCA, and predictive maintenance."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+llm = ["anthropic>=0.40"]
+dev = ["pytest>=7", "ruff>=0.4"]
+
+[project.scripts]
+robotops = "robotops.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

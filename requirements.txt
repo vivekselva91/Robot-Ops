@@ -1,0 +1,5 @@
+# Core runtime needs nothing beyond the standard library.
+# Install the extras you actually want:
+#   pip install -e ".[llm]"    -> live Claude calls
+#   pip install -e ".[dev]"    -> tests and linting
+anthropic>=0.40
