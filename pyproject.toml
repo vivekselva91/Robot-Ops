@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "robot-ops-copilot"
 version = "0.1.0"
-description = "Five Claude-powered reliability agents for robotics fleets: sensor-fusion sanity checks, ROS 2 uptime, latency profiling, automated RCA, and predictive maintenance."
+description = "Five agents for robotics fleets: sensor-fusion sanity checks, ROS 2 uptime, latency profiling, automated RCA, and predictive maintenance."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
